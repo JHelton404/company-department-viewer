@@ -72,7 +72,7 @@ function Departments() {
 }
 
 function Roles() {
-  const query = 'SELECT * FROM role';
+  const query = 'SELECT * FROM roles';
   connection.query(query, (err, results) => {
     if (err) {
       console.log(err);
@@ -133,7 +133,7 @@ function newRoles() {
   ])
   .then((data) => {
     connection.query(
-      `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`,
+      `INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)`,
       [data.newRoleTitle, data.newRoleSalary, data.newRoleDepartment],
       function (err, results) {
         if (err) throw err;
