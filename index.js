@@ -8,7 +8,7 @@ const connection = mysql.createConnection(
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
     user: process.env.DB_USER,
-    password: process.env.PASSWORD,
+    password: process.env.DB_PASSWORD,
   }
 )
 
@@ -54,7 +54,10 @@ function init() {
   })
 }
 
-init();
+connection.connect(function(err) {
+  if (err) console.log(err)
+})
+init()
 
 function Departments() {
   const query = 'SELECT * FROM department';
@@ -99,7 +102,7 @@ function newDepartment() {
   ])
   .then((data) => {
     connection.query(
-      `INSERT INTO department (department_name) VALUES (?)`,
+      `INSERT INTO department (name) VALUES (?)`,
       [data.newDepartment],
       function (err, results) {
         if (err) throw err;
