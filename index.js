@@ -1,13 +1,7 @@
 const inquirer = require('inquirer')
 const mysql = require('mysql2')
-const express = require('express')
 require('dotenv').config()
-
-const PORT = process.env.PORT || 3001;
-
-const app = express();
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+const consoleTable = require('console.table')
 
 const connection = mysql.createConnection(
   {
@@ -136,7 +130,7 @@ function newRoles() {
   ])
   .then((data) => {
     connection.query(
-      `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`
+      `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`,
       [data.newRoleTitle, data.newRoleSalary, data.newRoleDepartment],
       function (err, results) {
         if (err) throw err;
@@ -198,7 +192,7 @@ function assignRole() {
   ])
   .then((data) => {
     connection.query(
-      `UPDATE employee SET title = ? WHERE id = ?`,
+      `UPDATE employee SET role_id = ? WHERE id = ?`,
       [data.employeeNewRole, data.employeeId],
       function (err, results) {
         if (err) throw err;
